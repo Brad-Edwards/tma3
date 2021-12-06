@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField, TextChoices
+from django.db import models
+from django.db.models import CharField, ForeignKey, TextChoices
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -17,11 +18,11 @@ class User(AbstractUser):
     name = CharField(_("Username"), blank=True, max_length=255)
     first_name = CharField(_("First Name"), blank=False, max_length=255)
     last_name = CharField(_("Last Name"), blank=False, max_length=255)
-    last_name = CharField(_("Last Name"), blank=False, max_length=255)
     role = CharField(max_length=6,
                      choices=UserRoles.choices,
                      default=UserRoles.CHILD,
                      )
+    contact_info = ForeignKey("roots.ContactInfo", blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

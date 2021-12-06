@@ -272,3 +272,7 @@ SOCIALACCOUNT_ADAPTER = "comp482_tma3.users.adapters.SocialAccountAdapter"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# phonenumber_fields
+PHONENUMBER_DB_FORMAT = 'NATIONAL'
+PHONENUMBER_DEFAULT_REGION = 'US'

@@ -1,11 +1,10 @@
 from django.contrib import admin
 
-from . import forms
-from . import models
+from . import forms, models
 
 # Register your models here.
 class ClassroomAdmin(admin.ModelAdmin):
-    pass
+    form = forms.ClassroomAdminForm
 
 
 class AttendanceAdmin(admin.ModelAdmin):
@@ -13,5 +12,10 @@ class AttendanceAdmin(admin.ModelAdmin):
     filter_horizontal = ('children',)
 
 
+class ContactInfoAdmin(admin.ModelAdmin):
+    form = forms.ContactInfoAdminForm
+
+
 admin.site.register(models.Classroom, ClassroomAdmin)
 admin.site.register(models.Attendance, AttendanceAdmin)
+admin.site.register(models.ContactInfo, ContactInfoAdmin)
