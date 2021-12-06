@@ -10,3 +10,9 @@ def classroom(request, classroom_name):
 
 def contact_info(request, contact_info_id):
     return HttpResponse("You found contact info %s" % contact_info_id)
+
+def menu(request, menu_id):
+    return HttpResponse("You found menu %s" % menu_id)
+
+def food(request, food_id):
+    return HttpResponse("You found food %s" % food_id)

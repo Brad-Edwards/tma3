@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import AbstractUser
 from django.db.models import CharField, DateField, ForeignKey, ManyToManyField, Model, TextChoices
 from django.urls import reverse
@@ -23,7 +24,7 @@ class Classroom(Model):
 
 class Attendance(Model):
     date = DateField(_("Date"), default=datetime.date.today)
-    children = ManyToManyField(User)
+    children = ManyToManyField(User, blank=True)
     classroom = ForeignKey(Classroom, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
@@ -66,3 +67,25 @@ class ContactInfo(Model):
 
     def get_absolute_url(self):
         return reverse("contact_info", kwargs={"pk": self.pk})
+
+
+class Menu(Model):
+    date = DateField(_("Date"), default=datetime.date.today)
+    classrooms = ManyToManyField(Classroom, blank=True)
+
+    def __str__(self):
+        return self.pk
+
+    def get_absolute_url(self):
+        return reverse("menu", kwargs={'pk': self.pk})
+
+
+class Food(Model):
+    name = CharField(_("Name"), max_length=255)
+    menus = ManyToManyField(Menu, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("food", kwargs={'pk', self.pk})
