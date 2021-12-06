@@ -70,11 +70,12 @@ class ContactInfo(Model):
 
 
 class Menu(Model):
+    name = CharField(_("Name"), blank=True, null=True, max_length=255)
     date = DateField(_("Date"), default=datetime.date.today)
     classrooms = ManyToManyField(Classroom, blank=True)
 
     def __str__(self):
-        return self.pk
+        return f'{str(self.date)} {self.name}'
 
     def get_absolute_url(self):
         return reverse("menu", kwargs={'pk': self.pk})
@@ -89,3 +90,17 @@ class Food(Model):
 
     def get_absolute_url(self):
         return reverse("food", kwargs={'pk', self.pk})
+
+
+class Meal(Model):
+    date = DateField(_("Date"), default=datetime.date.today)
+    children = ManyToManyField(User, blank=True, limit_choices_to={'role': User.UserRoles.CHILD})
+    menu = ManyToManyField(Menu, blank=True)
+    food = ManyToManyField(Food, blank=True)
+    classrooms = ManyToManyField(Classroom, blank=True)
+
+    def __str__(self):
+        return f'{str(self.date)} {self.pk}'
+
+    def get_absolute_url(self):
+        return reverse("meal", kwargs={'pk', self.pk})

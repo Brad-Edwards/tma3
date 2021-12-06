@@ -16,3 +16,7 @@ def menu(request, menu_id):
 
 def food(request, food_id):
     return HttpResponse("You found food %s" % food_id)
+
+def meal(request, meal_id):
+    return HttpResponse("You found meal %S" % meal_id)
+

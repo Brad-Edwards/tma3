@@ -4,7 +4,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils.translation import gettext_lazy as _
 
 
-from roots.models import Attendance, Classroom, ContactInfo, Food, Menu
+from roots.models import Attendance, Classroom, ContactInfo, Food, Meal, Menu
 from comp482_tma3.users.models import User
 
 class AttendanceAdminForm(admin_forms.ModelForm):
@@ -50,4 +50,10 @@ class MenuAdminForm(admin_forms.ModelForm):
 class FoodAdminForm(admin_forms.ModelForm):
     class Meta:
         model = Food
+        fields = '__all__'
+
+
+class MealAdminForm(admin_forms.ModelForm):
+    class Meta:
+        model = Meal
         fields = '__all__'
