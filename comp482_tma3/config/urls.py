@@ -16,6 +16,7 @@ urlpatterns = [
     path("users/", include("comp482_tma3.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+    path("roots/", include("roots.urls", namespace="roots")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
