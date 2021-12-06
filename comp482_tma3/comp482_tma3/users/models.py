@@ -3,7 +3,6 @@ from django.db.models import CharField, TextChoices
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-
 class User(AbstractUser):
 
     class UserRoles(TextChoices):
@@ -22,7 +21,6 @@ class User(AbstractUser):
                      choices=UserRoles.choices,
                      default=UserRoles.CHILD,
                      )
-
 
     def get_absolute_url(self):
         """Get url for user's detail view.
