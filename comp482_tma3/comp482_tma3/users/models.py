@@ -1,15 +1,16 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField
+from django.db.models import CharField, TextChoices
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
 
-    class UserRoles(models.TextChoices):
+    class UserRoles(TextChoices):
         CHILD = 'CHILD', _("Child")
         PARENT = 'PARENT', _("Parent")
         STAFF = 'STAFF', _("Staff")
+
 
     """Default user for COMP482 TMA3."""
 
@@ -19,7 +20,7 @@ class User(AbstractUser):
     last_name = None  # type: ignore
     role = CharField(max_length=6,
                      choices=UserRoles.choices,
-                     default=UserRoles.child,
+                     default=UserRoles.CHILD,
                      )
 
 
