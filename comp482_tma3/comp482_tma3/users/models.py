@@ -5,27 +5,13 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 class User(AbstractUser):
-
-    class UserRoles(TextChoices):
-        CHILD = 'CHILD', _("Child")
-        PARENT = 'PARENT', _("Parent")
-        STAFF = 'STAFF', _("Staff")
-
-
     """Default user for COMP482 TMA3."""
 
     #: First and last name do not cover name patterns around the globe
     name = CharField(_("Username"), blank=True, max_length=255)
-    first_name = CharField(_("First Name"), blank=False, max_length=255)
-    last_name = CharField(_("Last Name"), blank=False, max_length=255)
-    role = CharField(max_length=6,
-                     choices=UserRoles.choices,
-                     default=UserRoles.CHILD,
-                     )
-    contact_info = ForeignKey("roots.ContactInfo", blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.name}'
 
     def get_absolute_url(self):
         """Get url for user's detail view.
@@ -34,4 +20,4 @@ class User(AbstractUser):
             str: URL for user detail.
 
         """
-        return reverse("users:detail", kwargs={"username": self.username})
+        return reverse("users:detail", kwargs={"name": self.name})

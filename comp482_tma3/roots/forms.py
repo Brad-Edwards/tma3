@@ -4,21 +4,18 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils.translation import gettext_lazy as _
 
 
-from roots.models import Attendance, Classroom, ContactInfo, Food, Meal, Menu
-from comp482_tma3.users.models import User
+from roots.models import Child, Classroom, \
+    ContactInfo, Food, Meal, Menu, Nap, Parent, Person, Registration, Toileting
 
-class AttendanceAdminForm(admin_forms.ModelForm):
+
+class ChildAdminForm(admin_forms.ModelForm):
     class Meta:
-        model = Attendance
+        model = Child
         fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        super(AttendanceAdminForm, self).__init__(*args, **kwargs)
-        self.fields['children'].queryset = User.objects.filter(role=User.UserRoles.CHILD)
 
 
 class ClassroomAdminForm(admin_forms.ModelForm):
-    kids = admin_forms.ModelMultipleChoiceField(queryset=User.objects.filter(role=User.UserRoles.CHILD),
+    kids = admin_forms.ModelMultipleChoiceField(queryset=Child.objects.all(),
                                                 label=_("Children"),
                                                 required=False,
                                                 widget=FilteredSelectMultiple(
@@ -32,18 +29,12 @@ class ClassroomAdminForm(admin_forms.ModelForm):
 
     def __init(self, *args, **kwargs):
         super(ClassroomAdminForm, self).__init__(*args, **kwargs)
-        self.fields['kids'].queryset = User.objects.filter(role=User.UserRoles.CHILD)
+        self.fields['kids'].queryset = Child.objects.all()
 
 
 class ContactInfoAdminForm(admin_forms.ModelForm):
     class Meta:
         model = ContactInfo
-        fields = '__all__'
-
-
-class MenuAdminForm(admin_forms.ModelForm):
-    class Meta:
-        model = Menu
         fields = '__all__'
 
 
@@ -56,4 +47,40 @@ class FoodAdminForm(admin_forms.ModelForm):
 class MealAdminForm(admin_forms.ModelForm):
     class Meta:
         model = Meal
+        fields = '__all__'
+
+
+class MenuAdminForm(admin_forms.ModelForm):
+    class Meta:
+        model = Menu
+        fields = '__all__'
+
+
+class NapAdminForm(admin_forms.ModelForm):
+    class Meta:
+        model = Nap
+        fields = '__all__'
+
+
+class ParentAdminForm(admin_forms.ModelForm):
+    class Meta:
+        model = Parent
+        fields = '__all__'
+
+
+class PersonAdminForm(admin_forms.ModelForm):
+    class Meta:
+        model = Person
+        fields = '__all__'
+
+
+class RegistrationAdminForm(admin_forms.ModelForm):
+    class Meta:
+        model = Registration
+        fields = '__all__'
+
+
+class ToiletingAdminForm(admin_forms.ModelForm):
+    class Meta:
+        model = Toileting
         fields = '__all__'
