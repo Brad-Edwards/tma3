@@ -10,10 +10,12 @@ from django.utils.translation import gettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
 
+def get_time():
+    return datetime.datetime.now().time()
 
 class Child(Model):
     person = ForeignKey("roots.Person", null=True, on_delete=models.SET_NULL)
-    parents = ManyToManyField("roots.Parent", blank=True, null=True)
+    parents = ManyToManyField("roots.Parent", blank=True)
 
     def __str__(self):
         return f'{self.pk}'
@@ -46,7 +48,7 @@ class ContactInfo(Model):
     province = CharField(max_length=2,
                          choices=Provinces.choices,
                          default=Provinces.BC)
-    country = CharField(_("Country"), max_length=255)
+    country = CharField(_("Country"), default="Canada", max_length=255)
     phone1 = PhoneNumberField(blank=True)
     phone2 = PhoneNumberField(blank=True)
 
@@ -59,7 +61,7 @@ class ContactInfo(Model):
 
 class Classroom(Model):
     name = CharField(_("Class Name"), blank=False, max_length=255)
-    children = ManyToManyField("roots.Child", blank=True, null=True)
+    children = ManyToManyField("roots.Child", blank=True)
     short_name = CharField(_("Abbreviation"), blank=True, max_length=10)
 
     def __str__(self):
@@ -71,7 +73,7 @@ class Classroom(Model):
 
 class Food(Model):
     name = CharField(_("Name"), max_length=255)
-    menus = ManyToManyField("roots.Menu", blank=True, null=True)
+    menus = ManyToManyField("roots.Menu", blank=True)
 
     def __str__(self):
         return self.name
@@ -82,13 +84,13 @@ class Food(Model):
 
 class Meal(Model):
     date = DateField(_("Date"), default=datetime.date.today)
-    children = ManyToManyField("roots.Child", blank=True, null=True)
-    classrooms = ManyToManyField("roots.Classroom", blank=True, null=True)
-    end_time = TimeField(_("End Time"), blank=False, null=False)
-    menu = ManyToManyField("roots.Menu", blank=True, null=True)
-    food = ManyToManyField("roots.Food", blank=True, null=True)
+    children = ManyToManyField("roots.Child", blank=True)
+    classrooms = ManyToManyField("roots.Classroom", blank=True)
+    end_time = TimeField(_("End Time"), default=get_time, blank=False, null=False)
+    menu = ManyToManyField("roots.Menu", blank=True)
+    food = ManyToManyField("roots.Food", blank=True)
     notes = TextField(_("Notes"), blank=True, null=True)
-    start_time = TimeField(_("Start Time"), blank=False, null=False)
+    start_time = TimeField(_("Start Time"), default=get_time, blank=False, null=False)
 
     def __str__(self):
         return f'{str(self.date)} {self.pk}'
@@ -100,7 +102,7 @@ class Meal(Model):
 class Menu(Model):
     name = CharField(_("Name"), blank=True, null=True, max_length=255)
     date = DateField(_("Date"), default=datetime.date.today)
-    classrooms = ManyToManyField("roots.Classroom", blank=True, null=True)
+    classrooms = ManyToManyField("roots.Classroom", blank=True)
     notes = TextField(_("Notes"), blank=True, null=True)
 
     def __str__(self):
@@ -112,10 +114,10 @@ class Menu(Model):
 
 class Nap(Model):
     date = DateField(_("Date"), blank=False, null=False, default=datetime.date.today)
-    end_time = TimeField(_("End Time"), blank=False, null=False)
-    children = ManyToManyField("roots.Child", blank=True, null=True)
+    end_time = TimeField(_("End Time"), default=get_time, blank=False, null=False)
+    children = ManyToManyField("roots.Child", blank=True)
     notes = TextField(_("Notes"), blank=True, null=True)
-    start_time = TimeField(_("Start Time"), blank=False, null=False)
+    start_time = TimeField(_("Start Time"), default=get_time, blank=False, null=False)
 
     def __str__(self):
         return self.pk
@@ -162,7 +164,7 @@ class Registration(Model):
     child = ForeignKey("roots.Child", blank=False, null=False, on_delete=models.CASCADE)
     classroom = ForeignKey("roots.Classroom", blank=True, null=True, on_delete=models.CASCADE)
     end_date = DateField(_("Date"), blank=True, null=True, default=datetime.date.today)
-    parents = ManyToManyField("roots.Parent", blank=True, null=True)
+    parents = ManyToManyField("roots.Parent", blank=True)
     start_date = DateField(_("Date"), blank=False, null=False, default=datetime.date.today)
 
     def __str__(self):
@@ -175,9 +177,9 @@ class Registration(Model):
 class Toileting(Model):
     child = ForeignKey("roots.Child", blank=False, null=False, on_delete=models.CASCADE)
     date = DateField(_("Date"), blank=False, null=False, default=datetime.date.today)
-    end_time = TimeField(_("End Time"), blank=False, null=False)
+    end_time = TimeField(_("End Time"), default=get_time, blank=False, null=False)
     notes = TextField(_("Notes"), blank=True, null=True)
-    start_time = TimeField(_("Start Time"), blank=False, null=False)
+    start_time = TimeField(_("Start Time"), default=get_time, blank=False, null=False)
 
     def __str__(self):
         return str(self.pk)
