@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
+from multiselectfield import MultiSelectField
 
 def get_time():
     return datetime.datetime.now().time()
@@ -71,9 +72,20 @@ class Classroom(Model):
         return reverse("classroom", kwargs={"name": self.name})
 
 
+class Family(Model):
+    name = CharField(_("Family Name"), blank=False, null=False, max_length=255)
+    children = ManyToManyField("roots.Person", blank=True, related_name="children")
+    parents = ManyToManyField("roots.Person", blank=True, related_name="parents")
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("families", kwargs={"id": self.pk})
+
+
 class Food(Model):
     name = CharField(_("Name"), max_length=255)
-    menus = ManyToManyField("roots.Menu", blank=True)
 
     def __str__(self):
         return self.name
@@ -84,13 +96,14 @@ class Food(Model):
 
 class Meal(Model):
     date = DateField(_("Date"), default=datetime.date.today)
-    children = ManyToManyField("roots.Child", blank=True)
     classrooms = ManyToManyField("roots.Classroom", blank=True)
+    children = ManyToManyField("roots.Child", blank=True)
+    start_time = TimeField(_("Start Time"), default=get_time, blank=False, null=False)
     end_time = TimeField(_("End Time"), default=get_time, blank=False, null=False)
     menu = ManyToManyField("roots.Menu", blank=True)
     food = ManyToManyField("roots.Food", blank=True)
     notes = TextField(_("Notes"), blank=True, null=True)
-    start_time = TimeField(_("Start Time"), default=get_time, blank=False, null=False)
+
 
     def __str__(self):
         return f'{str(self.date)} {self.pk}'
@@ -103,10 +116,11 @@ class Menu(Model):
     name = CharField(_("Name"), blank=True, null=True, max_length=255)
     date = DateField(_("Date"), default=datetime.date.today)
     classrooms = ManyToManyField("roots.Classroom", blank=True)
+    food = ManyToManyField("roots.Food", blank=True)
     notes = TextField(_("Notes"), blank=True, null=True)
 
     def __str__(self):
-        return f'{str(self.date)} {self.name}'
+        return self.name
 
     def get_absolute_url(self):
         return reverse("menu", kwargs={'id': self.pk})
@@ -114,10 +128,11 @@ class Menu(Model):
 
 class Nap(Model):
     date = DateField(_("Date"), blank=False, null=False, default=datetime.date.today)
+    start_time = TimeField(_("Start Time"), default=get_time, blank=False, null=False)
     end_time = TimeField(_("End Time"), default=get_time, blank=False, null=False)
     children = ManyToManyField("roots.Child", blank=True)
     notes = TextField(_("Notes"), blank=True, null=True)
-    start_time = TimeField(_("Start Time"), default=get_time, blank=False, null=False)
+
 
     def __str__(self):
         return self.pk
@@ -151,7 +166,7 @@ class Person(Model):
                      choices=Roles.choices,
                      default=Roles.CHILD,
                      )
-    user = ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
+    user = ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -163,9 +178,10 @@ class Person(Model):
 class Registration(Model):
     child = ForeignKey("roots.Child", blank=False, null=False, on_delete=models.CASCADE)
     classroom = ForeignKey("roots.Classroom", blank=True, null=True, on_delete=models.CASCADE)
+    start_date = DateField(_("Date"), blank=False, null=False, default=datetime.date.today)
     end_date = DateField(_("Date"), blank=True, null=True, default=datetime.date.today)
     parents = ManyToManyField("roots.Parent", blank=True)
-    start_date = DateField(_("Date"), blank=False, null=False, default=datetime.date.today)
+
 
     def __str__(self):
         return self.pk
@@ -175,11 +191,16 @@ class Registration(Model):
 
 
 class Toileting(Model):
+
+    CHOICES = (("none", "None"),
+               ("pee", "Pee"),
+               ("poo", "Poo"))
     child = ForeignKey("roots.Child", blank=False, null=False, on_delete=models.CASCADE)
     date = DateField(_("Date"), blank=False, null=False, default=datetime.date.today)
+    start_time = TimeField(_("Start Time"), default=get_time, blank=False, null=False)
     end_time = TimeField(_("End Time"), default=get_time, blank=False, null=False)
     notes = TextField(_("Notes"), blank=True, null=True)
-    start_time = TimeField(_("Start Time"), default=get_time, blank=False, null=False)
+    activity = MultiSelectField(choices=CHOICES, default="none", max_choices=2)
 
     def __str__(self):
         return str(self.pk)

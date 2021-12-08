@@ -11,7 +11,7 @@ class User(AbstractUser):
     name = CharField(_("Username"), blank=True, max_length=255)
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.username}'
 
     def get_absolute_url(self):
         """Get url for user's detail view.

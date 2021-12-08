@@ -5,7 +5,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 from roots.models import Child, Classroom, \
-    ContactInfo, Food, Meal, Menu, Nap, Parent, Person, Registration, Toileting
+    ContactInfo, Family, Food, Meal, Menu, Nap, Parent, Person, \
+    Registration, Toileting
 
 
 class ChildAdminForm(admin_forms.ModelForm):
@@ -38,6 +39,12 @@ class ContactInfoAdminForm(admin_forms.ModelForm):
         fields = '__all__'
 
 
+class FamilyAdminForm(admin_forms.ModelForm):
+    class Meta:
+        model = Family
+        fields = '__all__'
+
+
 class FoodAdminForm(admin_forms.ModelForm):
     class Meta:
         model = Food
@@ -54,6 +61,13 @@ class MenuAdminForm(admin_forms.ModelForm):
     class Meta:
         model = Menu
         fields = '__all__'
+        food = admin_forms.ModelMultipleChoiceField(queryset=Food.objects.all(),
+                                                label=_("Menu Items"),
+                                                required=False,
+                                                widget=FilteredSelectMultiple(
+                                                    _("food"),
+                                                    False,
+                                                ))
 
 
 class NapAdminForm(admin_forms.ModelForm):

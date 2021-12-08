@@ -15,6 +15,10 @@ class ContactInfoAdmin(admin.ModelAdmin):
     form = forms.ContactInfoAdminForm
 
 
+class FamilyAdmin(admin.ModelAdmin):
+    form = forms.FamilyAdminForm
+
+
 class FoodAdmin(admin.ModelAdmin):
     form = forms.FoodAdminForm
 
@@ -50,6 +54,7 @@ class ToiletingAdmin(admin.ModelAdmin):
 admin.site.register(models.Child, ChildAdmin)
 admin.site.register(models.Classroom, ClassroomAdmin)
 admin.site.register(models.ContactInfo, ContactInfoAdmin)
+admin.site.register(models.Family, FamilyAdmin)
 admin.site.register(models.Food, FoodAdmin)
 admin.site.register(models.Meal, MealAdmin)
 admin.site.register(models.Menu, MenuAdmin)

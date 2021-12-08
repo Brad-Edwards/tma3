@@ -72,6 +72,7 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "phonenumber_field",
+    "multiselectfield",
 ]
 
 LOCAL_APPS = [
