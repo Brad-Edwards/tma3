@@ -21,7 +21,7 @@ def families(request, family_id):
 def food(request, food_id):
     return HttpResponse("You found food %s" % food_id)
 
-def landing(request):
+def index(request):
     template = loader.get_template("roots/index.html")
     context = Context({'moo': "moo"})
     return HttpResponse(template.render(context, request))

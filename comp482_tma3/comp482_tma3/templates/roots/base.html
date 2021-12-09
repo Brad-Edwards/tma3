@@ -44,11 +44,14 @@
           </button>
           <a class="navbar-brand" href="{% url 'home' %}">Roots</a>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="collapse navbar-collapse nav-fill w-100" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
                 <a class="nav-link" href="{% url 'home' %}">Home <span class="visually-hidden">(current)</span></a>
               </li>
+            </ul>
+            <div class="flex-grow-1"></div>
+            <ul class="navbar-nav ml-auto">
               {% if request.user.is_authenticated %}
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
