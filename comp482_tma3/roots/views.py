@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.template import Context, loader
 
 # Create your views here.
 def attendance(request, attendance_id):
@@ -20,6 +21,11 @@ def families(request, family_id):
 def food(request, food_id):
     return HttpResponse("You found food %s" % food_id)
 
+def landing(request):
+    template = loader.get_template("roots/index.html")
+    context = Context({'moo': "moo"})
+    return HttpResponse(template.render(context, request))
+
 def menu(request, menu_id):
     return HttpResponse("You found menu %s" % menu_id)
 
@@ -36,7 +42,7 @@ def people(request, person_id):
     return HttpResponse(f'You found person {person_id}')
 
 def registration(request, registration_id):
-    return HttpResponse(f'You found {registrat_id}')
+    return HttpResponse(f'You found {registration_id}')
 
 def toileting(request, toileting_id):
     return HttpResponse(f'You found toileting {toileting_id}')
