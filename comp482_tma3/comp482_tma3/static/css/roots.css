@@ -1,1 +1,24 @@
 /* These styles are written for COMP482 Assignment */
+
+ion-icon {
+  pointer-events: none;
+}
+
+.roots-container {
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 0;
+  width: 4.5rem;
+}
+
+.roots-sidebar-icon {
+  font-size: 1.5rem;
+  max-width: 24px;
+}
+
+@media (min-width: 800px){
+   .roots-container {
+     flex-direction: row;
+   }
+}
+

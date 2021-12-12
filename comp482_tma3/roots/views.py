@@ -1,6 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import Context, loader
+from django.views.generic.edit import CreateView, FormView
+
+from roots.models import Child, Classroom, ContactInfo, Family, Parent, Person, Registration
 
 # Create your views here.
 def attendance(request, attendance_id):
@@ -41,8 +44,19 @@ def parents(request, parent_id):
 def people(request, person_id):
     return HttpResponse(f'You found person {person_id}')
 
+class RegisterCreateView(CreateView):
+    model = Registration
+    fields = '__all__'
+    success_url = "roots:registration_landing"
+
+
 def registration(request, registration_id):
     return HttpResponse(f'You found {registration_id}')
+
+def registration_landing(request):
+    template = loader.get_template("roots/registration_landing.html")
+    context = Context({'moo': "moo"})
+    return HttpResponse(template.render(context, request))
 
 def toileting(request, toileting_id):
     return HttpResponse(f'You found toileting {toileting_id}')
