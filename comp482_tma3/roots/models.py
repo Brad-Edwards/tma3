@@ -1,4 +1,6 @@
 import datetime
+
+import django.forms
 from django.conf import settings
 from django.db import models
 from django.contrib.admin import widgets as adminWidget
@@ -180,7 +182,6 @@ class Registration(Model):
     child = ForeignKey("roots.Child", blank=False, null=False, on_delete=models.CASCADE)
     classroom = ForeignKey("roots.Classroom", blank=True, null=True, on_delete=models.CASCADE)
     start_date = DateField(_("Start Date"), blank=False, null=False, default=datetime.date.today)
-    end_date = DateField(_("Date"), blank=True, null=True, default=datetime.date.today)
     parents = ManyToManyField("roots.Parent", blank=True)
 
 

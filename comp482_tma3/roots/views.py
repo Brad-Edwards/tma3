@@ -1,5 +1,4 @@
 import datetime
-import formadmin
 from django import forms
 from django.contrib import admin
 from django.db import models
@@ -13,6 +12,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout
 
 from roots.models import Child, Classroom, ContactInfo, Family, Parent, Person, Registration
+from roots.forms import RegisterChildForm
 
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -86,21 +86,15 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-class RegisterCreateForm(forms.ModelForm):
-    client = forms.ModelChoiceField(
-        required=False,
-        queryset=Child.objects.all(),
-        widget=RelatedFieldWidgetCanAdd(Child, related_url="")
-    )
-
-    class Meta:
-        model = Registration
-        fields = ('client', 'classroom')
-
+class RCV(CreateView):
+    template_name = "roots/register_form.html"
+    model = Registration
+    fields = '__all__'
+    initial = {'classroom': 1}
 
 
 def register(request):
-    form = RegisterCreateForm(request.POST)
+    form = RegisterChildForm()
     return render(request, "roots/register_form.html", {'form': form})
 
 def registration(request, registration_id):
