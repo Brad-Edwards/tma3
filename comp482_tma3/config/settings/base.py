@@ -71,6 +71,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "formadmin",
     "phonenumber_field",
     "multiselectfield",
 ]
