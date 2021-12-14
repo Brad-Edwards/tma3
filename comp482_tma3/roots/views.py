@@ -3,7 +3,7 @@ from django import forms
 from django.contrib import admin
 from django.db import models
 from django.contrib.admin import widgets as adminWidget
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import Context, loader
 from django.views.generic.edit import CreateView, FormView
@@ -94,8 +94,16 @@ class RCV(CreateView):
 
 
 def register(request):
-    form = RegisterChildForm()
+    form = RegisterChildForm
+    if request.method == 'POST':
+        request.session['register_child_data'] = request.POST
+        return HttpResponseRedirect(reverse('roots:register_success'))
+
     return render(request, "roots/register_form.html", {'form': form})
+
+def register_success(request):
+    data = request.session.get('register_child_data',  None)
+    return render(request, "roots/register_success.html", {'data': data})
 
 def registration(request, registration_id):
     return HttpResponse(f'You found {registration_id}')

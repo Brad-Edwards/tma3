@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 from phonenumber_field.formfields import PhoneNumberField
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import ButtonHolder, Div, Fieldset, Layout, Submit
+from crispy_forms.layout import Button, ButtonHolder, Div, Fieldset, HTML, Layout, Submit
 
 from roots.models import Child, Classroom, \
     ContactInfo, Family, Food, Meal, Menu, Nap, Parent, Person, \
@@ -139,6 +139,8 @@ class RegisterChildForm(admin_forms.Form):
     child_date_of_birth = admin_forms.DateField(label="Date of Birth", widget=admin_forms.DateInput(
         attrs={'type': 'date'}))
 
+    child_lives_with_guardian1 = admin_forms.BooleanField(label="Child's Primary Address", required=False)
+    child_lives_with_guardian2 = admin_forms.BooleanField(label="Child's Primary Address", required=False)
     guardian1_first_name = admin_forms.CharField(label="First Name", max_length=255, required=True)
     guardian1_last_name = admin_forms.CharField(label="Last Name", max_length=266, required=True)
     guardian1_date_of_birth = admin_forms.DateField(label="Date of Birth", widget=admin_forms.DateInput(
@@ -181,109 +183,122 @@ class RegisterChildForm(admin_forms.Form):
         self.helper.form_method = "post"
         #self.helper.add_input(Submit('submit', 'Register'))
         self.helper.layout = Layout(
-            # Classroom
-            Fieldset(
-                'Classroom',
-                Div(
-                    'child_classroom',
-                    css_class = 'row',
-                ),
-            ),
-            # Child
-            Fieldset(
-                'Child',
-                Div(
-                    Div(
-                        'child_first_name',
-                        css_class = "col",
-                    ),
-                    Div(
-                        'child_last_name',
-                        css_class = "col",
-                    ),
-                    css_class = 'row'
-                ),
-                'child_date_of_birth',
-            ),
-            # Guardian 1
-            Fieldset(
-                'Guardian 1',
-                Div(
-                    Div(
-                        'guardian1_first_name',
-                        css_class = 'col',
-                    ),
-                    Div(
-                        'guardian1_last_name',
-                        css_class = 'col',
-                    ),
-                    css_class = 'row',
-                ),
-                Div(
-                    'guardian1_date_of_birth',
-                    css_class = 'row',
-                ),
+            Div(
+                HTML("""<h1>New Registration</h1>"""),
+                # Classroom
                 Fieldset(
-                    'Contact Info',
+                    'Classroom',
                     Div(
-                        Div(
-                            'guardian1_address',
-                            css_class = 'col',
-                        ),
-                        Div(
-                            'guardian2_city',
-                            css_class = 'col',
-                        ),
+                        'child_classroom',
                         css_class = 'row',
                     ),
-                    Div(
-                        Div(
-                            'guardian1_province',
-                            css_class = 'col',
-                        ),
-                        Div(
-                            'guardian1_country',
-                            css_class = 'col',
-                        ),
-                        Div(
-                            'guardian1_postal_code',
-                            css_class = 'col',
-                        ),
-                        css_class = 'row',
-                    ),
-                    Div(
-                        Div(
-                            'guardian1_phone1',
-                            css_class = 'col',
-                        ),
-                        Div(
-                            'guardian1_phone2',
-                            css_class = 'col',
-                        ),
-                        css_class = 'row',
-                    )
                 ),
-            ),
-            Fieldset(
-                Div(
+                # Child
+                Fieldset(
+                    'Child',
+                    Div(
+                        Div(
+                            'child_first_name',
+                            css_class = "col",
+                        ),
+                        Div(
+                            'child_last_name',
+                            css_class = "col",
+                        ),
+                        css_class = 'row'
+                    ),
+                    'child_date_of_birth',
+                ),
+                # Guardian 1
+                Fieldset(
+                    'Parent',
+                    Div(
+                        Div(
+                            'guardian1_first_name',
+                            css_class = 'col',
+                        ),
+                        Div(
+                            'guardian1_last_name',
+                            css_class = 'col',
+                        ),
+                        css_class = 'row',
+                    ),
+                    Div(
+                        'guardian1_date_of_birth',
+                        css_class = 'row',
+                    ),
+                    Fieldset(
+                        '',
+                        #Div(
+                        #    'child_lives_with_guardian1',
+                        #    css_class = 'row',
+                        #),
+                        Div(
+                            Div(
+                                'guardian1_address',
+                                css_class = 'col',
+                            ),
+                            Div(
+                                'guardian2_city',
+                                css_class = 'col',
+                            ),
+                            css_class = 'row',
+                        ),
+                        Div(
+                            Div(
+                                'guardian1_province',
+                                css_class = 'col',
+                            ),
+                            Div(
+                                'guardian1_country',
+                                css_class = 'col',
+                            ),
+                            Div(
+                                'guardian1_postal_code',
+                                css_class = 'col',
+                            ),
+                            css_class = 'row',
+                        ),
+                        Div(
+                            Div(
+                                'guardian1_phone1',
+                                css_class = 'col',
+                            ),
+                            Div(
+                                'guardian1_phone2',
+                                css_class = 'col',
+                            ),
+                            css_class = 'row',
+                        ),
+                    ),
+                ),
+                #HTML("""
+                #    <input class='btn-secondary' type='button' value='Add Guardian' name='addGuardian2' id='button-id-guardian2Button'>
+                #"""),
+                Fieldset(
                     'Guardian 2',
                     Div(
                         Div(
-                            'guardian2_first_name',
-                            css_class='col',
+                            Div(
+                                'guardian2_first_name',
+                                css_class='col',
+                            ),
+                            Div(
+                                'guardian2_last_name',
+                                css_class='col',
+                            ),
+                            css_class='row',
                         ),
                         Div(
-                            'guardian2_last_name',
-                            css_class='col',
+                            'guardian2_date_of_birth',
+                            css_class='row',
                         ),
-                        css_class='row',
-                    ),
-                    Div(
-                        'guardian2_date_of_birth',
-                        css_class='row',
-                    ),
-                    Fieldset(
-                        'Contact Info',
+                        Fieldset(
+                            '',
+                        Div(
+                            'child_lives_with_guardian2',
+                            css_class = 'row',
+                        ),
                         Div(
                             Div(
                                 'guardian2_address',
@@ -320,14 +335,16 @@ class RegisterChildForm(admin_forms.Form):
                                 css_class='col',
                             ),
                             css_class='row',
-                        )
+                            ),
+                        ),
                     ),
-                    css_class = 'd-none',
-                    css_id = 'register_guardian2',
+                    css_class='d-none',
+                    css_id='register_guardian2',
                 ),
-            ),
-            ButtonHolder(
-                Submit('submit', 'Register', css_class='btn-primary')
+                ButtonHolder(
+                    Submit('submit', 'Register', css_class='btn-primary')
+                ),
+                css_class = 'container w-50'
             ),
         )
 

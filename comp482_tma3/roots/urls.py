@@ -17,6 +17,7 @@ urlpatterns = [
     path("people/", views.people, name="people"),
     path("registration/", views.registration, name="registration"),
     path("registration/register/", views.register, name="register"),
+    path("registration/register/success/", views.register_success, name="register_success"),
     path("registration_landing/", TemplateView.as_view(template_name="roots/registration_landing.html"), name="registration_landing"),
     path("toileting/", views.toileting, name="toileting")
 ]

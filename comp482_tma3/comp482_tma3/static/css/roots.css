@@ -4,6 +4,11 @@ ion-icon {
   pointer-events: none;
 }
 
+#div_id_child_lives_with_guardian1 {
+  margin-bottom: 0!important;
+  margin-top: .75rem!important;
+}
+
 .roots-container {
   display: flex;
   flex-direction: column-reverse;
