@@ -160,7 +160,7 @@ class RegisterChildForm(admin_forms.Form):
     guardian2_first_name = admin_forms.CharField(label="First Name", max_length=255, required=False)
     guardian2_last_name = admin_forms.CharField(label="Last Name", max_length=266, required=False)
     guardian2_date_of_birth = admin_forms.DateField(label="Date of Birth", widget=admin_forms.DateInput(
-        attrs={'type': 'date', }))
+        attrs={'type': 'date', }), required=False)
     guardian2_address = admin_forms.CharField(label="Address", max_length=255, required=False)
     guardian2_city = admin_forms.CharField(label="City", max_length=255, required=False, initial="Chilliwack")
     guardian2_province = admin_forms.ChoiceField(
@@ -180,8 +180,8 @@ class RegisterChildForm(admin_forms.Form):
         self.helper = FormHelper()
         self.helper.form_id = "child_registration_form"
         self.helper.form_class = "roots-form"
-        self.helper.form_method = "post"
-        #self.helper.add_input(Submit('submit', 'Register'))
+        self.helper.form_method = "POST"
+        self.helper.add_input(Submit('submit', 'Register'))
         self.helper.layout = Layout(
             Div(
                 HTML("""<h1>New Registration</h1>"""),
