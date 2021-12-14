@@ -1,7 +1,8 @@
-{% extends 'roots/base.html' %}
+{% extends 'roots/index.html' %}
 
-{% block content %}
-  <main>
-    <p>You successfully registered {{ data.child_first_name }}</p>
+{% block roots-content %}
+  <main class="container m-auto text-center">
+    <h2>Success!</h2>
+    <p>{{ data.child_first_name }} {{ data.child_last_name }} has been registered for {{ data.child_classroom }}</p>
   </main>
-{% endblock content %}
+{% endblock roots-content %}

@@ -1,65 +1,7 @@
-{% extends "roots/base.html" %}
+{% extends "roots/index.html" %}
 
-{% block content %}
-<main class="roots-container container-fluid d-flex w-100">
-  <div class="roots-sidebar d-flex flex-column flex-shrink-0 " >
-    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-      <li class="nav-item">
-        <a href="{% url 'roots:registration_landing' %}" class="nav-link active py-3 border-bottom border-dark rounded-0" aria-current="page" title
-           data-bs-toggle="tooltip" data-bs-placement="right"
-           data-bs-original-title="Registration">
-          <i class="bi bi-clipboard-plus fa-5x roots-sidebar-icon" aria-hidden="true"></i>
-        </a>
-      </li>
-    </ul>
-    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-      <li class="nav-item">
-        <a href="#" class="nav-link active py-3 border-bottom border-dark rounded-0" aria-current="page" title
-           data-bs-toggle="tooltip" data-bs-placement="right"
-           data-bs-original-title="Check In">
-          <i class="bi bi-person-plus roots-sidebar-icon" aria-hidden="true"></i>
-        </a>
-      </li>
-    </ul>
-    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-      <li class="nav-item">
-        <a href="#" class="nav-link active py-3 border-bottom border-dark rounded-0" aria-current="page" title
-           data-bs-toggle="tooltip" data-bs-placement="right"
-           data-bs-original-title="Check Out">
-          <i class="bi bi-person-dash roots-sidebar-icon" aria-hidden="true"></i>
-        </a>
-      </li>
-    </ul>
-    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-      <li class="nav-item">
-        <a href="#" class="nav-link active py-3 border-bottom border-dark rounded-0" aria-current="page" title
-           data-bs-toggle="tooltip" data-bs-placement="right"
-           data-bs-original-title="Meal">
-          <ion-icon name="restaurant-outline" class="bi roots-sidebar-icon"></ion-icon>
-        </a>
-      </li>
-    </ul>
-    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-      <li class="nav-item">
-        <a href="#" class="nav-link active py-3 border-bottom border-dark rounded-0" aria-current="page" title
-           data-bs-toggle="tooltip" data-bs-placement="right"
-           data-bs-original-title="Nap">
-          <ion-icon name="moon-outline" class="bi roots-sidebar-icon"></ion-icon>
-        </a>
-      </li>
-    </ul>
-    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-      <li class="nav-item">
-        <a href="#" class="nav-link active py-3 border-bottom border-dark rounded-0" aria-current="page" title
-           data-bs-toggle="tooltip" data-bs-placement="right"
-           data-bs-original-title="Toileting">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="bi roots-sidebar-icon">
-            <path fill="var(--ci-primary-color, currentColor)" d="M469.613,46.229A77.38,77.38,0,0,0,408,16H395.619l-56,216H40v32c0,46.482,18.616,88.125,52.417,117.257C124.4,408.82,168.288,424,216,424h38.124l-8,72H448V250.04l35.411-136.585A77.379,77.379,0,0,0,469.613,46.229ZM416,464H281.876l8-72H216c-84.785,0-144-52.636-144-128H416Zm36.435-358.576L419.619,232H372.677l47.3-182.436a45.952,45.952,0,0,1,32.46,55.86Z" class="ci-primary roots-sidebar-icon"/>
-          </svg>
-        </a>
-      </li>
-    </ul>
-  </div>
+{% block roots-content %}
+<main class="roots-container container-fluid d-flex w-100 mt-3">
   <div class="container">
   <div class="row">
     <div class="col">
@@ -114,7 +56,8 @@
         <p>Dummy Task</p>
       </a>
     </div>
-</div>
+  </div>
+  </div>
 </main>
 
-{% endblock content %}
+{% endblock roots-content %}

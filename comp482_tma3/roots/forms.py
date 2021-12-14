@@ -181,7 +181,6 @@ class RegisterChildForm(admin_forms.Form):
         self.helper.form_id = "child_registration_form"
         self.helper.form_class = "roots-form"
         self.helper.form_method = "POST"
-        self.helper.add_input(Submit('submit', 'Register'))
         self.helper.layout = Layout(
             Div(
                 HTML("""<h1>New Registration</h1>"""),
