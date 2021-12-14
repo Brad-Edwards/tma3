@@ -1,5 +1,7 @@
 import datetime
 from dateutil.relativedelta import relativedelta
+import logging
+from django.core.exceptions import ValidationError
 
 import django.db.models
 from django.contrib import admin
@@ -103,6 +105,52 @@ class RegistrationAdminForm(admin_forms.ModelForm):
     class Meta:
         model = Registration
         fields = '__all__'
+
+
+class CheckInForm(admin_forms.Form):
+    class Children(TextChoices):
+        T = 'Tina', _("Tina")
+        L = 'Lotanna', _("Lotanna")
+        M = 'Mei', _("Mei")
+
+    children = admin_forms.MultipleChoiceField(label="Children to Check In", required=True, choices = Children.choices,
+                                               widget=admin_forms.CheckboxSelectMultiple())
+    check_in_date = admin_forms.DateField(widget=admin_forms.DateInput(attrs={'type': 'date'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%Y-%m-%d'))
+    check_in_time = admin_forms.TimeField(widget=admin_forms.DateInput(attrs={'type': 'time'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%I:%M'))
+
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = "child_check_in_form"
+        self.helper.form_class = "roots-form"
+        self.helper.form_method = "POST"
+        self.helper.layout = Layout(
+            Div(
+                HTML("""
+                    <h1 class='text-center mb-5'>Check In</h1>
+                """),
+                Fieldset(
+                    '',
+                    Div(
+                        'children',
+                        css_class = 'row'
+                    ),
+                    Div(
+                        'check_in_date',
+                        'check_in_time',
+                        css_class = 'row'
+                    ),
+                ),
+                ButtonHolder(
+                    Submit('submit', 'Check In', css_class='btn-primary')
+                ),
+                css_class = 'container w-50 mt-5'
+            ),
+        )
 
 
 class RegisterChildForm(admin_forms.Form):

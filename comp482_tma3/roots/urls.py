@@ -5,6 +5,8 @@ from . import views
 
 app_name = "roots"
 urlpatterns = [
+    path("check_in/", views.check_in, name="check_in"),
+    path("check_in_success/", views.check_in_success, name="check_in_success"),
     path("children/", views.children, name="children"),
     path("classrooms/", views.classroom, name="classroom"),
     path("contact_info/", views.contact_info, name="contact_info"),

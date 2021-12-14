@@ -12,7 +12,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout
 
 from roots.models import Child, Classroom, ContactInfo, Family, Parent, Person, Registration
-from roots.forms import RegisterChildForm
+from roots.forms import CheckInForm, RegisterChildForm
 
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -22,6 +22,31 @@ from django.conf import settings
 # Create your views here.
 def attendance(request, attendance_id):
     return HttpResponse("You found attendance %s" % attendance_id)
+
+def check_in(request):
+    form = CheckInForm
+    if request.method == 'POST':
+        request.session['check_in_data'] = request.POST
+        kids = request.POST.getlist('children')
+        request.session['kids'] = kids
+        return HttpResponseRedirect(reverse('roots:check_in_success'))
+
+    return render(request, "roots/check_in.html", {'form': form})
+
+def check_in_success(request):
+    data = request.session.get('check_in_data', None)
+    kids = request.session.get('kids', None)
+    c = []
+    if len(kids) == 1:
+        c = kids
+    else:
+        kids.insert(len(kids) - 1, 'and')
+        for kid in kids[:-2]:
+            c.append(kid + ",")
+        c.append(kids[-2])
+        c.append(kids[-1])
+
+    return render(request, "roots/check_in_success.html", {'data': data, 'kids': c})
 
 def children(request, child_id):
     return HttpResponse(f'You found child {child_id}')
@@ -61,14 +86,6 @@ def people(request, person_id):
 
 class DateInput(forms.DateInput):
     input_type = 'date'
-
-
-class RCV(CreateView):
-    template_name = "roots/register_form.html"
-    model = Registration
-    fields = '__all__'
-    initial = {'classroom': 1}
-
 
 def register(request):
     form = RegisterChildForm
