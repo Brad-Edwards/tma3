@@ -28,7 +28,6 @@ def attendance(request, attendance_id):
 def check_in(request):
     form = CheckInForm(request.POST or None)
     if request.method == 'POST':
-
         if form.is_valid():
             request.session['check_in_data'] = request.POST
             kids = request.POST.getlist('children')
@@ -53,12 +52,13 @@ def check_in_success(request):
     return render(request, "roots/check_in_success.html", {'data': data, 'kids': c})
 
 def check_out(request):
-    form = CheckOutForm
+    form = CheckOutForm(request.POST or None)
     if request.method == 'POST':
-        request.session['check_out_data'] = request.POST
-        kids = request.POST.getlist('children')
-        request.session['kids'] = kids
-        return HttpResponseRedirect(reverse('roots:check_out_success'))
+        if form.is_valid():
+            request.session['check_out_data'] = request.POST
+            kids = request.POST.getlist('children')
+            request.session['kids'] = kids
+            return HttpResponseRedirect(reverse('roots:check_out_success'))
 
     return render(request, "roots/check_out.html", {'form': form})
 
@@ -104,12 +104,13 @@ def meal(request, meal_id):
     return HttpResponse("You found meal %s" % meal_id)
 
 def nap(request):
-    form = NapForm
+    form = NapForm(request.POST or None)
     if request.method == 'POST':
-        request.session['nap_data'] = request.POST
-        kids = request.POST.getlist('children')
-        request.session['kids'] = kids
-        return HttpResponseRedirect(reverse('roots:nap_success'))
+        if form.is_valid():
+            request.session['nap_data'] = request.POST
+            kids = request.POST.getlist('children')
+            request.session['kids'] = kids
+            return HttpResponseRedirect(reverse('roots:nap_success'))
 
     return render(request, "roots/nap.html", {'form': form})
 
@@ -139,12 +140,13 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 def register(request):
-    form = RegisterChildForm
+    form = RegisterChildForm(request.POST or None)
     if request.method == 'POST':
-        request.session['register_child_data'] = request.POST
-        return HttpResponseRedirect(reverse('roots:register_success'))
+        if form.is_valid():
+            request.session['register_child_data'] = request.POST
+            return HttpResponseRedirect(reverse('roots:register_success'))
 
-    return render(request, "roots/register_form.html", {'form': form})
+    return render(request, "roots/check_in.html", {'form': form})
 
 def register_success(request):
     data = request.session.get('register_child_data',  None)
@@ -159,14 +161,15 @@ def registration_landing(request):
     return HttpResponse(template.render(context, request))
 
 def toileting(request):
-    form = ToiletingForm
+    form = ToiletingForm(request.POST or None)
     if request.method == 'POST':
-        request.session['toileting_data'] = request.POST
-        kids = request.POST.getlist('children')
-        request.session['kids'] = kids
-        return HttpResponseRedirect(reverse('roots:toileting_success'))
+        if form.is_valid():
+            request.session['toileting_data'] = request.POST
+            kids = request.POST.getlist('children')
+            request.session['kids'] = kids
+            return HttpResponseRedirect(reverse('roots:toileting_success'))
 
-    return render(request, "roots/toileting.html", {'form': form})
+    return render(request, "roots/check_in.html", {'form': form})
 
 def toileting_success(request):
     data = request.session.get('toileting_data', None)
