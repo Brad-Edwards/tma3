@@ -254,6 +254,12 @@ LOGGING = {
         }
     },
     "root": {"level": "INFO", "handlers": ["console"]},
+    'loggers': {
+        'myLogger': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        }
+    }
 }
 
 

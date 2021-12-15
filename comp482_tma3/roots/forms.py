@@ -21,22 +21,35 @@ from roots.models import Child, Classroom, \
 class DateInput(admin_forms.widgets.DateInput):
     input_type = 'date'
 
-
 class CheckInForm(admin_forms.Form):
     class Children(TextChoices):
         T = 'Tina', _("Tina")
         L = 'Lotanna', _("Lotanna")
         M = 'Mei', _("Mei")
 
+
+    def validate_check_in_time(self):
+        input_time = datetime.datetime.now().replace(hour=self.hour, minute=self.minute, second=self.second)
+        diff = input_time - datetime.datetime.now()
+        delta = datetime.timedelta(minutes=30)
+        opening = datetime.datetime.now().replace(hour=6, minute=0, second=0)
+        if  diff > delta:
+            raise ValidationError("Cannot check in more than 30 minutes in advance.")
+
+        if input_time < opening:
+            raise ValidationError("Cannot check in before the centre opens at %s." % opening.strftime('%I:%M %p'))
+
     children = admin_forms.MultipleChoiceField(label="Children to Check In", required=True, choices = Children.choices,
                                                widget=admin_forms.CheckboxSelectMultiple())
     check_in_date = admin_forms.DateField(widget=admin_forms.DateInput(attrs={'type': 'date'}), required=True,
                                           initial=datetime.datetime.now().strftime('%Y-%m-%d'))
     check_in_time = admin_forms.TimeField(widget=admin_forms.DateInput(attrs={'type': 'time'}), required=True,
-                                          initial=datetime.datetime.now().strftime('%I:%M'))
+                                          initial=datetime.datetime.now().strftime('%I:%M'),
+                                          validators=[validate_check_in_time])
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['check_in_date'].widget.attrs['readonly'] = True
         self.helper = FormHelper()
         self.helper.form_id = "child_check_in_form"
         self.helper.form_class = "roots-form"

@@ -1,4 +1,6 @@
 import datetime
+import logging
+
 from django import forms
 from django.contrib import admin
 from django.db import models
@@ -24,12 +26,14 @@ def attendance(request, attendance_id):
     return HttpResponse("You found attendance %s" % attendance_id)
 
 def check_in(request):
-    form = CheckInForm
+    form = CheckInForm(request.POST or None)
     if request.method == 'POST':
-        request.session['check_in_data'] = request.POST
-        kids = request.POST.getlist('children')
-        request.session['kids'] = kids
-        return HttpResponseRedirect(reverse('roots:check_in_success'))
+
+        if form.is_valid():
+            request.session['check_in_data'] = request.POST
+            kids = request.POST.getlist('children')
+            request.session['kids'] = kids
+            return HttpResponseRedirect(reverse('roots:check_in_success'))
 
     return render(request, "roots/check_in.html", {'form': form})
 
