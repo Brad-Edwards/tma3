@@ -22,6 +22,94 @@ class DateInput(admin_forms.widgets.DateInput):
     input_type = 'date'
 
 
+class CheckInForm(admin_forms.Form):
+    class Children(TextChoices):
+        T = 'Tina', _("Tina")
+        L = 'Lotanna', _("Lotanna")
+        M = 'Mei', _("Mei")
+
+    children = admin_forms.MultipleChoiceField(label="Children to Check In", required=True, choices = Children.choices,
+                                               widget=admin_forms.CheckboxSelectMultiple())
+    check_in_date = admin_forms.DateField(widget=admin_forms.DateInput(attrs={'type': 'date'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%Y-%m-%d'))
+    check_in_time = admin_forms.TimeField(widget=admin_forms.DateInput(attrs={'type': 'time'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%I:%M'))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = "child_check_in_form"
+        self.helper.form_class = "roots-form"
+        self.helper.form_method = "POST"
+        self.helper.layout = Layout(
+            Div(
+                HTML("""
+                    <h1 class='text-center mb-5'>Check In</h1>
+                """),
+                Fieldset(
+                    '',
+                    Div(
+                        'children',
+                        css_class = 'row'
+                    ),
+                    Div(
+                        'check_in_date',
+                        'check_in_time',
+                        css_class = 'row'
+                    ),
+                ),
+                ButtonHolder(
+                    Submit('submit', 'Check In', css_class='btn-primary')
+                ),
+                css_class = 'container w-50 mt-5'
+            ),
+        )
+
+
+class CheckOutForm(admin_forms.Form):
+    class Children(TextChoices):
+        T = 'Tina', _("Tina")
+        L = 'Lotanna', _("Lotanna")
+        M = 'Mei', _("Mei")
+
+    children = admin_forms.MultipleChoiceField(label="Children to Check Out", required=True, choices = Children.choices,
+                                               widget=admin_forms.CheckboxSelectMultiple())
+    check_out_date = admin_forms.DateField(widget=admin_forms.DateInput(attrs={'type': 'date'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%Y-%m-%d'))
+    check_out_time = admin_forms.TimeField(widget=admin_forms.DateInput(attrs={'type': 'time'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%I:%M'))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = "child_check_out_form"
+        self.helper.form_class = "roots-form"
+        self.helper.form_method = "POST"
+        self.helper.layout = Layout(
+            Div(
+                HTML("""
+                    <h1 class='text-center mb-5'>Check In</h1>
+                """),
+                Fieldset(
+                    '',
+                    Div(
+                        'children',
+                        css_class = 'row'
+                    ),
+                    Div(
+                        'check_out_date',
+                        'check_out_time',
+                        css_class = 'row'
+                    ),
+                ),
+                ButtonHolder(
+                    Submit('submit', 'Check Out', css_class='btn-primary')
+                ),
+                css_class = 'container w-50 mt-5'
+            ),
+        )
+
+
 class ChildAdminForm(admin_forms.ModelForm):
     class Meta:
         model = Child
@@ -89,6 +177,59 @@ class NapAdminForm(admin_forms.ModelForm):
         fields = '__all__'
 
 
+class NapForm(admin_forms.Form):
+    class Children(TextChoices):
+        T = 'Tina', _("Tina")
+        L = 'Lotanna', _("Lotanna")
+        M = 'Mei', _("Mei")
+
+    children = admin_forms.MultipleChoiceField(label="Children", required=True, choices = Children.choices,
+                                               widget=admin_forms.CheckboxSelectMultiple())
+    nap_date = admin_forms.DateField(widget=admin_forms.DateInput(attrs={'type': 'date'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%Y-%m-%d'))
+    nap_start_time = admin_forms.TimeField(widget=admin_forms.DateInput(attrs={'type': 'time'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%I:%M'))
+    nap_end_time = admin_forms.TimeField(widget=admin_forms.DateInput(attrs={'type': 'time'}), required=True,
+                                           initial=datetime.datetime.now().strftime('%I:%M'))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = "child_nap_form"
+        self.helper.form_class = "roots-form"
+        self.helper.form_method = "POST"
+        self.helper.layout = Layout(
+            Div(
+                HTML("""
+                    <h1 class='text-center mb-5'>Nap</h1>
+                """),
+                Fieldset(
+                    '',
+                    Div(
+                        'children',
+                        css_class = 'row'
+                    ),
+                    Div(
+                        'nap_date',
+                        css_class = 'row'
+                    ),
+                    Div(
+                        'nap_start_time',
+                        css_class = 'row'
+                    ),
+                    Div(
+                        'nap_end_time',
+                        css_class = 'row'
+                    )
+                ),
+                ButtonHolder(
+                    Submit('submit', 'Log Nap', css_class='btn-primary')
+                ),
+                css_class = 'container w-50 mt-5'
+            ),
+        )
+
+
 class ParentAdminForm(admin_forms.ModelForm):
     class Meta:
         model = Parent
@@ -105,52 +246,6 @@ class RegistrationAdminForm(admin_forms.ModelForm):
     class Meta:
         model = Registration
         fields = '__all__'
-
-
-class CheckInForm(admin_forms.Form):
-    class Children(TextChoices):
-        T = 'Tina', _("Tina")
-        L = 'Lotanna', _("Lotanna")
-        M = 'Mei', _("Mei")
-
-    children = admin_forms.MultipleChoiceField(label="Children to Check In", required=True, choices = Children.choices,
-                                               widget=admin_forms.CheckboxSelectMultiple())
-    check_in_date = admin_forms.DateField(widget=admin_forms.DateInput(attrs={'type': 'date'}), required=True,
-                                          initial=datetime.datetime.now().strftime('%Y-%m-%d'))
-    check_in_time = admin_forms.TimeField(widget=admin_forms.DateInput(attrs={'type': 'time'}), required=True,
-                                          initial=datetime.datetime.now().strftime('%I:%M'))
-
-
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_id = "child_check_in_form"
-        self.helper.form_class = "roots-form"
-        self.helper.form_method = "POST"
-        self.helper.layout = Layout(
-            Div(
-                HTML("""
-                    <h1 class='text-center mb-5'>Check In</h1>
-                """),
-                Fieldset(
-                    '',
-                    Div(
-                        'children',
-                        css_class = 'row'
-                    ),
-                    Div(
-                        'check_in_date',
-                        'check_in_time',
-                        css_class = 'row'
-                    ),
-                ),
-                ButtonHolder(
-                    Submit('submit', 'Check In', css_class='btn-primary')
-                ),
-                css_class = 'container w-50 mt-5'
-            ),
-        )
 
 
 class RegisterChildForm(admin_forms.Form):
@@ -392,6 +487,68 @@ class RegisterChildForm(admin_forms.Form):
                     Submit('submit', 'Register', css_class='btn-primary')
                 ),
                 css_class = 'container w-50'
+            ),
+        )
+
+
+class ToiletingForm(admin_forms.Form):
+    class Children(TextChoices):
+        T = 'Tina', _("Tina")
+        L = 'Lotanna', _("Lotanna")
+        M = 'Mei', _("Mei")
+
+
+    class Options(TextChoices):
+        PEE = 'Pee', _("Pee")
+        POO = 'Poo', _("Poo")
+        BOTH = 'Both', _("Both")
+        NONE = 'None', _("None")
+
+
+    children = admin_forms.MultipleChoiceField(label="Children", required=True, choices = Children.choices,
+                                               widget=admin_forms.CheckboxSelectMultiple())
+    toileting_date = admin_forms.DateField(widget=admin_forms.DateInput(attrs={'type': 'date'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%Y-%m-%d'))
+    toileting_time = admin_forms.TimeField(widget=admin_forms.DateInput(attrs={'type': 'time'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%I:%M'))
+    results = admin_forms.MultipleChoiceField(label="Results", required=True, choices=Options.choices,
+                                               widget=admin_forms.CheckboxSelectMultiple())
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = "child_toileting_form"
+        self.helper.form_class = "roots-form"
+        self.helper.form_method = "POST"
+        self.helper.layout = Layout(
+            Div(
+                HTML("""
+                    <h1 class='text-center mb-5'>Toileting</h1>
+                """),
+                Fieldset(
+                    '',
+                    Div(
+                        'children',
+                        css_class = 'row'
+                    ),
+                    Div(
+                        'toileting_date',
+                        css_class = 'row'
+                    ),
+                    Div(
+                        'toileting_time',
+                        css_class = 'row'
+                    ),
+                    Div(
+                        'results',
+                        css_class = 'row'
+                    )
+                ),
+                ButtonHolder(
+                    Submit('submit', 'Log Toileting', css_class='btn-primary')
+                ),
+                css_class = 'container w-50 mt-5'
             ),
         )
 
