@@ -77,15 +77,29 @@ class CheckOutForm(forms.Form):
         L = 'Lotanna', _("Lotanna")
         M = 'Mei', _("Mei")
 
+
+    def validate_check_out_time(self):
+        input_time = datetime.datetime.now().replace(hour=self.hour, minute=self.minute, second=self.second)
+        diff = input_time - datetime.datetime.now()
+        delta = datetime.timedelta(minutes=30)
+        closing = datetime.datetime.now().replace(hour=17, minute=0, second=0)
+        if input_time > closing:
+            raise ValidationError("Cannot check out after the centre closes at %s." % closing.strftime('%I:%M %p'))
+
+        if abs(diff) > delta:
+            raise ValidationError("Cannot check out more than 30 minutes ahead of time.")
+
     children = forms.MultipleChoiceField(label="Children to Check Out", required=True, choices = Children.choices,
                                                widget=forms.CheckboxSelectMultiple())
     check_out_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True,
                                           initial=datetime.datetime.now().strftime('%Y-%m-%d'))
     check_out_time = forms.TimeField(widget=forms.DateInput(attrs={'type': 'time'}), required=True,
-                                          initial=datetime.datetime.now().strftime('%I:%M'))
+                                          initial=datetime.datetime.now().strftime('%I:%M'),
+                                     validators=[validate_check_out_time])
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['check_out_date'].widget.attrs['readonly'] = True
         self.helper = FormHelper()
         self.helper.form_id = "child_check_out_form"
         self.helper.form_class = "roots-form"

@@ -1,9 +1,9 @@
-from django import forms
+from django import forms as admin_forms
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import Context, loader
 
-from forms import CheckInForm, CheckOutForm, NapForm, RegisterChildForm, ToiletingForm
+from roots.forms import CheckInForm, CheckOutForm, NapForm, RegisterChildForm, ToiletingForm
 
 from django.urls import reverse
 
@@ -91,7 +91,7 @@ def nap_success(request):
 
     return render(request, "roots/nap_success.html", {'data': data, 'kids': c})
 
-class DateInput(forms.DateInput):
+class DateInput(admin_forms.DateInput):
     input_type = 'date'
 
 
