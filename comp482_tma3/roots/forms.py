@@ -1,4 +1,5 @@
 import datetime
+import dateutil.relativedelta
 
 from django.core.exceptions import ValidationError
 
@@ -204,6 +205,12 @@ class RegisterChildForm(forms.Form):
         YT = "YT", _("YT")
 
 
+    def validate_child_date_of_birth(self):
+        input_date = datetime.datetime.now().replace(year=self.year, day=self.day, month=self.month)
+        cut_off_birth_date = datetime.datetime.now() - dateutil.relativedelta.relativedelta(years=6)
+        if input_date < cut_off_birth_date:
+            raise ValidationError("The centre does not accept children six years old or older.")
+
     child_classroom = forms.ChoiceField(
         label = "Classroom",
         widget = forms.Select(),
@@ -214,7 +221,7 @@ class RegisterChildForm(forms.Form):
     child_first_name = forms.CharField(label="First Name", max_length=255, required=True)
     child_last_name = forms.CharField(label="Last Name", max_length=266, required=True)
     child_date_of_birth = forms.DateField(label="Date of Birth", widget=forms.DateInput(
-        attrs={'type': 'date'}))
+        attrs={'type': 'date'}), validators=[validate_child_date_of_birth])
 
     child_lives_with_guardian1 = forms.BooleanField(label="Child's Primary Address", required=False)
     child_lives_with_guardian2 = forms.BooleanField(label="Child's Primary Address", required=False)

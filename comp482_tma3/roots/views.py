@@ -102,7 +102,7 @@ def register(request):
             request.session['register_child_data'] = request.POST
             return HttpResponseRedirect(reverse('roots:register_success'))
 
-    return render(request, "roots/check_in.html", {'form': form})
+    return render(request, "roots/register_form.html", {'form': form})
 
 def register_success(request):
     data = request.session.get('register_child_data',  None)
