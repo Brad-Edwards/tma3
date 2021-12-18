@@ -60,6 +60,9 @@ def check_out_success(request):
 
     return render(request, "roots/check_out_success.html", {'data': data, 'kids': c})
 
+def parent_landing(request):
+    return render(request, "roots/parent_landing.html")
+
 def index(request):
     template = loader.get_template("roots/index.html")
     context = Context({'moo': "moo"})

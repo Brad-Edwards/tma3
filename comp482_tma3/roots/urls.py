@@ -14,6 +14,7 @@ urlpatterns = [
     path("meal_success/", views.meal_success, name="meal_success"),
     path("naps/", views.nap, name="nap"),
     path("nap_success/", views.nap_success, name="nap_success"),
+    path("parent_landing/", views.parent_landing, name="parent_landing"),
     path("registration/register/", views.register, name="register"),
     path("registration/register/success/", views.register_success, name="register_success"),
     path("registration_landing/", TemplateView.as_view(template_name="roots/registration_landing.html"), name="registration_landing"),
