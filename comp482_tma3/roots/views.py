@@ -69,6 +69,7 @@ def nap(request):
     form = NapForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
+            form.clean()
             request.session['nap_data'] = request.POST
             kids = request.POST.getlist('children')
             request.session['kids'] = kids
@@ -122,7 +123,7 @@ def toileting(request):
             request.session['kids'] = kids
             return HttpResponseRedirect(reverse('roots:toileting_success'))
 
-    return render(request, "roots/check_in.html", {'form': form})
+    return render(request, "roots/toileting.html", {'form': form})
 
 def toileting_success(request):
     data = request.session.get('toileting_data', None)

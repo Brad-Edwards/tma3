@@ -1,3 +1,4 @@
+import logging
 import datetime
 import dateutil.relativedelta
 
@@ -136,6 +137,13 @@ class NapForm(forms.Form):
         L = 'Lotanna', _("Lotanna")
         M = 'Mei', _("Mei")
 
+
+    def clean(self):
+        if self.cleaned_data['nap_start_time'] > self.cleaned_data['nap_end_time']:
+            self.add_error('nap_start_time', 'Nap cannot end before it begins.')
+
+        return self.cleaned_data
+
     children = forms.MultipleChoiceField(label="Children", required=True, choices = Children.choices,
                                                widget=forms.CheckboxSelectMultiple())
     nap_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True,
@@ -147,6 +155,7 @@ class NapForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['nap_date'].widget.attrs['readonly'] = True
         self.helper = FormHelper()
         self.helper.form_id = "child_nap_form"
         self.helper.form_class = "roots-form"
@@ -446,18 +455,23 @@ class ToiletingForm(forms.Form):
         NONE = 'None', _("None")
 
 
-    children = forms.MultipleChoiceField(label="Children", required=True, choices = Children.choices,
-                                               widget=forms.CheckboxSelectMultiple())
+    def validate_results(self):
+        if 'None' in self and len(self) > 1:
+            raise ValidationError("Result cannot be 'None' and something else.")
+
+
+    children = forms.ChoiceField(label="Children", required=True, choices = Children.choices)
     toileting_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True,
                                           initial=datetime.datetime.now().strftime('%Y-%m-%d'))
     toileting_time = forms.TimeField(widget=forms.DateInput(attrs={'type': 'time'}), required=True,
                                           initial=datetime.datetime.now().strftime('%I:%M'))
     results = forms.MultipleChoiceField(label="Results", required=True, choices=Options.choices,
-                                               widget=forms.CheckboxSelectMultiple())
+                                               widget=forms.CheckboxSelectMultiple(), validators=[validate_results])
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.fields['toileting_date'].widget.attrs['readonly'] = True
         self.helper.form_id = "child_toileting_form"
         self.helper.form_class = "roots-form"
         self.helper.form_method = "POST"
