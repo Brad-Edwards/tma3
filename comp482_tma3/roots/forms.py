@@ -395,7 +395,7 @@ class RegisterChildForm(forms.Form):
                                 css_class = 'col',
                             ),
                             Div(
-                                'guardian2_city',
+                                'guardian1_city',
                                 css_class = 'col',
                             ),
                             css_class = 'row',

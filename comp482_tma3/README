@@ -1,0 +1,32 @@
+COMP482 TMA3
+============
+Assignment 3
+============
+
+Installation
+------------
+
+Requirements
+^^^^^^^^^^^^
+
+Python 3: This project requires Python 3 (https://wiki.python.org/moin/BeginnersGuide/Download). You can check your
+python version from the command line iwth
+
+Docker
+
+Git: Your system must have git (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) or GitHub
+ Desktop (https://desktop.github.com/) installed to pull the project directly from GitHub. If you do not have one of
+ these installed, use the From zip File instructions below.
+
+From GitHub
+^^^^^^^^^^^
+
+The project is available on GitHub at https://github.com/Brad-Edwards/tma3. Type:
+
+git clone https://github.com/Brad-Edwards/tma3.git
+
+From zip File
+^^^^^^^^^^^^^
+
+If you downloaded the zip file, unzip it in a target location and skip ahead to Build.
+

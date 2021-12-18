@@ -1,3 +1,5 @@
+import datetime
+from dateutil import parser
 from django import forms as admin_forms
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -6,6 +8,10 @@ from django.template import Context, loader
 from roots.forms import CheckInForm, CheckOutForm, MealForm, NapForm, RegisterChildForm, ToiletingForm
 
 from django.urls import reverse
+
+class DateInput(admin_forms.DateInput):
+    input_type = 'date'
+
 
 # Create your views here.
 def check_in(request):
@@ -32,7 +38,11 @@ def check_in_success(request):
         c.append(kids[-2])
         c.append(kids[-1])
 
-    return render(request, "roots/check_in_success.html", {'data': data, 'kids': c})
+    date = datetime.datetime.strptime(data['check_in_date'], '%Y-%m-%d').strftime('%B %d, %Y')
+    time = datetime.datetime.strptime(data['check_in_time'], '%I:%M').strftime('%I:%M %p')
+
+    return render(request, "roots/check_in_success.html", {'data': data, 'kids': c, 'date': date,
+                                                           'time': time})
 
 def check_out(request):
     form = CheckOutForm(request.POST or None)
@@ -58,10 +68,13 @@ def check_out_success(request):
         c.append(kids[-2])
         c.append(kids[-1])
 
-    return render(request, "roots/check_out_success.html", {'data': data, 'kids': c})
+    date = datetime.datetime.strptime(data['check_out_date'], '%Y-%m-%d').strftime('%B %d, %Y')
+    time = datetime.datetime.strptime(data['check_out_time'], '%I:%M').strftime('%I:%M %p')
 
-def parent_landing(request):
-    return render(request, "roots/parent_landing.html")
+    return render(request, "roots/check_out_success.html", {'data': data, 'kids': c, 'date': date,
+                                                           'time': time})
+
+    return render(request, "roots/check_out_success.html", {'data': data, 'kids': c})
 
 def index(request):
     template = loader.get_template("roots/index.html")
@@ -93,7 +106,11 @@ def meal_success(request):
         c.append(kids[-2])
         c.append(kids[-1])
 
-    return render(request, "roots/meal_success.html", {'data': data, 'kids': c})
+    date = datetime.datetime.strptime(data['meal_date'], '%Y-%m-%d').strftime('%B %d, %Y')
+    time = datetime.datetime.strptime(data['meal_time'], '%I:%M').strftime('%I:%M %p')
+
+    return render(request, "roots/meal_success.html", {'data': data, 'kids': c, 'date': date,
+                                                                'time': time})
 
 def nap(request):
     form = NapForm(request.POST or None)
@@ -120,11 +137,14 @@ def nap_success(request):
         c.append(kids[-2])
         c.append(kids[-1])
 
-    return render(request, "roots/nap_success.html", {'data': data, 'kids': c})
+    date = datetime.datetime.strptime(data['nap_date'], '%Y-%m-%d').strftime('%B %d, %Y')
+    time = datetime.datetime.strptime(data['nap_time'], '%I:%M').strftime('%I:%M %p')
 
-class DateInput(admin_forms.DateInput):
-    input_type = 'date'
+    return render(request, "roots/nap_success.html", {'data': data, 'kids': c, 'date': date,
+                                                           'time': time})
 
+def parent_landing(request):
+    return render(request, "roots/parent_landing.html")
 
 def register(request):
     form = RegisterChildForm(request.POST or None)
@@ -168,4 +188,8 @@ def toileting_success(request):
         c.append(kids[-2])
         c.append(kids[-1])
 
-    return render(request, "roots/toileting_success.html", {'data': data, 'kids': c})
+    date = datetime.datetime.strptime(data['toileting_date'], '%Y-%m-%d').strftime('%B %d, %Y')
+    time = datetime.datetime.strptime(data['toileting_time'], '%I:%M').strftime('%I:%M %p')
+
+    return render(request, "roots/toileting_success.html", {'data': data, 'kids': c, 'date': date,
+                                                          'time': time})

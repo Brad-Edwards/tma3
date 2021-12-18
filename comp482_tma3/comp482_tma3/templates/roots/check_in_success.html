@@ -43,7 +43,7 @@
           <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand" href="{% url 'home' %}">Roots</a>
+          <a class="navbar-brand" href="{% url 'roots:parent_landing' %}">Roots</a>
 
           <div class="collapse navbar-collapse nav-fill w-100" id="navbarSupportedContent">
             <div class="flex-grow-1"></div>
@@ -60,13 +60,15 @@
       </nav>
     </div>
     <main class="container w-50 text-center mt-5">
-      <h1 class="mb-4">Success!</h1>
+      <h1 class="mb-4">Checked in!</h1>
+      <p>{{ date }}, {{ time }}</p>
       <p>You have checked in
         {% spaceless %}
           {% for kid in kids %}
             {{ kid }}
           {% endfor %}
         {% endspaceless %}.</p>
+      <p><a href="{% url 'roots:parent_landing' %}"><input class="btn btn-primary" type="button" value="Home"></a></p>
     </main>
   </body>
 </html>
