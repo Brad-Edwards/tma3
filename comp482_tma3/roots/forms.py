@@ -131,6 +131,70 @@ class CheckOutForm(forms.Form):
         )
 
 
+
+class MealForm(forms.Form):
+    class Children(TextChoices):
+        T = 'Tina', _("Tina")
+        L = 'Lotanna', _("Lotanna")
+        M = 'Mei', _("Mei")
+
+
+    class Meals(TextChoices):
+        Mac = 'Mac and Cheese', _("Mac and Cheese")
+        Ham = 'Ham Sandwich', _("Ham Sandwich")
+        Pizza = 'Pizza', _("Pizza")
+        Sushi = 'Sushi', _("Sushi")
+
+
+    children = forms.MultipleChoiceField(label="Children", required=True, choices=Children.choices,
+                                         widget=forms.CheckboxSelectMultiple(),
+                                         initial=['Tina', 'Lotanna', 'Mei'])
+    meal = forms.ChoiceField(label="Lunch Menu", required=True, choices=Meals.choices)
+    meal_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True,
+                                     initial=datetime.datetime.now().strftime('%Y-%m-%d'))
+    meal_time = forms.TimeField(widget=forms.DateInput(attrs={'type': 'time'}), required=True,
+                                     initial=datetime.datetime.now().strftime('%I:%M'))
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.fields['meal_date'].widget.attrs['readonly'] = True
+        self.helper.form_id = "meal_form"
+        self.helper.form_class = "roots-form"
+        self.helper.form_method = "POST"
+        self.helper.layout = Layout(
+            Div(
+                HTML("""
+                        <h1 class='text-center mb-5'>Log Meal</h1>
+                    """),
+                Fieldset(
+                    '',
+                    Div(
+                        'meal',
+                        css_class='row'
+                    ),
+                    Div(
+                        'children',
+                        css_class='row'
+                    ),
+                    Div(
+                        'meal_date',
+                        css_class='row'
+                    ),
+                    Div(
+                        'meal_time',
+                        css_class='row'
+                    ),
+                ),
+                ButtonHolder(
+                    Submit('submit', 'Log Meal', css_class='btn-primary')
+                ),
+                css_class='container w-50 mt-5'
+            ),
+        )
+
+
 class NapForm(forms.Form):
     class Children(TextChoices):
         T = 'Tina', _("Tina")

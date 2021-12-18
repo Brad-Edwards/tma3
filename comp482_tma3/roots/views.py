@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import Context, loader
 
-from roots.forms import CheckInForm, CheckOutForm, NapForm, RegisterChildForm, ToiletingForm
+from roots.forms import CheckInForm, CheckOutForm, MealForm, NapForm, RegisterChildForm, ToiletingForm
 
 from django.urls import reverse
 
@@ -64,6 +64,33 @@ def index(request):
     template = loader.get_template("roots/index.html")
     context = Context({'moo': "moo"})
     return HttpResponse(template.render(context, request))
+
+def meal(request):
+    form = MealForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.clean()
+            request.session['meal_data'] = request.POST
+            kids = request.POST.getlist('children')
+            request.session['kids'] = kids
+            return HttpResponseRedirect(reverse('roots:meal_success'))
+
+    return render(request, "roots/meal.html", {'form': form})
+
+def meal_success(request):
+    data = request.session.get('meal_data', None)
+    kids = request.session.get('kids', None)
+    c = []
+    if len(kids) == 1:
+        c = kids
+    else:
+        kids.insert(len(kids) - 1, 'and')
+        for kid in kids[:-2]:
+            c.append(kid + ",")
+        c.append(kids[-2])
+        c.append(kids[-1])
+
+    return render(request, "roots/meal_success.html", {'data': data, 'kids': c})
 
 def nap(request):
     form = NapForm(request.POST or None)
