@@ -138,7 +138,7 @@ def nap_success(request):
         c.append(kids[-1])
 
     date = datetime.datetime.strptime(data['nap_date'], '%Y-%m-%d').strftime('%B %d, %Y')
-    time = datetime.datetime.strptime(data['nap_time'], '%I:%M').strftime('%I:%M %p')
+    time = datetime.datetime.strptime(data['nap_start_time'], '%I:%M').strftime('%I:%M %p')
 
     return render(request, "roots/nap_success.html", {'data': data, 'kids': c, 'date': date,
                                                            'time': time})
