@@ -39,7 +39,7 @@ def check_in_success(request):
         c.append(kids[-1])
 
     date = datetime.datetime.strptime(data['check_in_date'], '%Y-%m-%d').strftime('%B %d, %Y')
-    time = datetime.datetime.strptime(data['check_in_time'], '%I:%M').strftime('%I:%M %p')
+    time = datetime.datetime.strptime(data['check_in_time'], '%H:%M').strftime('%I:%M %p')
 
     return render(request, "roots/check_in_success.html", {'data': data, 'kids': c, 'date': date,
                                                            'time': time})
@@ -69,7 +69,7 @@ def check_out_success(request):
         c.append(kids[-1])
 
     date = datetime.datetime.strptime(data['check_out_date'], '%Y-%m-%d').strftime('%B %d, %Y')
-    time = datetime.datetime.strptime(data['check_out_time'], '%I:%M').strftime('%I:%M %p')
+    time = datetime.datetime.strptime(data['check_out_time'], '%H:%M').strftime('%I:%M %p')
 
     return render(request, "roots/check_out_success.html", {'data': data, 'kids': c, 'date': date,
                                                            'time': time})
@@ -107,7 +107,7 @@ def meal_success(request):
         c.append(kids[-1])
 
     date = datetime.datetime.strptime(data['meal_date'], '%Y-%m-%d').strftime('%B %d, %Y')
-    time = datetime.datetime.strptime(data['meal_time'], '%I:%M').strftime('%I:%M %p')
+    time = datetime.datetime.strptime(data['meal_time'], '%H:%M').strftime('%I:%M %p')
 
     return render(request, "roots/meal_success.html", {'data': data, 'kids': c, 'date': date,
                                                                 'time': time})
@@ -138,7 +138,7 @@ def nap_success(request):
         c.append(kids[-1])
 
     date = datetime.datetime.strptime(data['nap_date'], '%Y-%m-%d').strftime('%B %d, %Y')
-    time = datetime.datetime.strptime(data['nap_start_time'], '%I:%M').strftime('%I:%M %p')
+    time = datetime.datetime.strptime(data['nap_start_time'], '%H:%M').strftime('%I:%M %p')
 
     return render(request, "roots/nap_success.html", {'data': data, 'kids': c, 'date': date,
                                                            'time': time})
@@ -189,7 +189,7 @@ def toileting_success(request):
         c.append(kids[-1])
 
     date = datetime.datetime.strptime(data['toileting_date'], '%Y-%m-%d').strftime('%B %d, %Y')
-    time = datetime.datetime.strptime(data['toileting_time'], '%I:%M').strftime('%I:%M %p')
+    time = datetime.datetime.strptime(data['toileting_time'], '%H:%M').strftime('%I:%M %p')
 
     return render(request, "roots/toileting_success.html", {'data': data, 'kids': c, 'date': date,
                                                           'time': time})

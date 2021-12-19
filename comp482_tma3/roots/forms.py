@@ -37,9 +37,9 @@ class CheckInForm(forms.Form):
                                                widget=forms.CheckboxSelectMultiple())
     check_in_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True,
                                           initial=datetime.datetime.now().strftime('%Y-%m-%d'))
-    check_in_time = forms.TimeField(widget=forms.DateInput(attrs={'type': 'time'}), required=True,
-                                          initial=datetime.datetime.now().strftime('%I:%M'),
-                                          validators=[validate_check_in_time])
+    check_in_time = forms.TimeField(input_formats=('%I:%M %p',),widget=forms.DateInput(attrs={'type': 'time'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%H:%M'),
+                                     validators=[validate_check_in_time])
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -95,8 +95,8 @@ class CheckOutForm(forms.Form):
                                                widget=forms.CheckboxSelectMultiple())
     check_out_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True,
                                           initial=datetime.datetime.now().strftime('%Y-%m-%d'))
-    check_out_time = forms.TimeField(widget=forms.DateInput(attrs={'type': 'time'}), required=True,
-                                          initial=datetime.datetime.now().strftime('%I:%M'),
+    check_out_time = forms.TimeField(input_formats=('%I:%M %p',),widget=forms.DateInput(attrs={'type': 'time'}), required=True,
+                                          initial=datetime.datetime.now().strftime('%H:%M'),
                                      validators=[validate_check_out_time])
 
     def __init__(self, *args, **kwargs):
@@ -153,7 +153,7 @@ class MealForm(forms.Form):
     meal_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True,
                                      initial=datetime.datetime.now().strftime('%Y-%m-%d'))
     meal_time = forms.TimeField(widget=forms.DateInput(attrs={'type': 'time'}), required=True,
-                                     initial=datetime.datetime.now().strftime('%I:%M'))
+                                     initial=datetime.datetime.now().strftime('%H:%M'))
 
 
     def __init__(self, *args, **kwargs):
@@ -213,9 +213,9 @@ class NapForm(forms.Form):
     nap_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True,
                                           initial=datetime.datetime.now().strftime('%Y-%m-%d'))
     nap_start_time = forms.TimeField(widget=forms.DateInput(attrs={'type': 'time'}), required=True,
-                                          initial=datetime.datetime.now().strftime('%I:%M'))
+                                          initial=datetime.datetime.now().strftime('%H:%M'))
     nap_end_time = forms.TimeField(widget=forms.DateInput(attrs={'type': 'time'}), required=True,
-                                           initial=datetime.datetime.now().strftime('%I:%M'))
+                                           initial=datetime.datetime.now().strftime('%H:%M'))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -528,7 +528,7 @@ class ToiletingForm(forms.Form):
     toileting_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True,
                                           initial=datetime.datetime.now().strftime('%Y-%m-%d'))
     toileting_time = forms.TimeField(widget=forms.DateInput(attrs={'type': 'time'}), required=True,
-                                          initial=datetime.datetime.now().strftime('%I:%M'))
+                                          initial=datetime.datetime.now().strftime('%H:%M'))
     results = forms.MultipleChoiceField(label="Results", required=True, choices=Options.choices,
                                                widget=forms.CheckboxSelectMultiple(), validators=[validate_results])
 
