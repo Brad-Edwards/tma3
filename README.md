@@ -3,10 +3,8 @@ COMP482 TMA3
 Assignment 3
 ============
 
-Installation
-------------
-
 Requirements
+------------
 
 The project can be run on Ubuntu or similar distributions, whether natively, in a VM or through the Windows
 Subsystem for Linux 2. If you are using Windows and have not already installed WSL2 and Ubuntu, please follow the
@@ -34,6 +32,7 @@ unzip
 sudo apt-get install unzip
 
 Installation
+------------
 
 Open a Ubuntu terminal (in Windows, open a normal terminal and enter 'ubuntu' to start WSL2).
 
